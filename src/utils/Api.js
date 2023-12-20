@@ -1,15 +1,15 @@
-import { getEmailQuery, getUserQuery } from './getValidQuery';
+import { getEmailQuery, getUserQuery } from "./getValidQuery";
 
 class Api {
   static #port = 5001;
-  static #rootURL = `http://localhost:${this.#port}/`;
-
+  //static #rootURL = `http://localhost:${this.#port}/`;
+  static #rootURL = `https://fwcy6x-5001.csb.app/`;
   static async #getPromise(address) {
     const res = await fetch(`${address}`);
     if (!res.ok) {
-      throw new Response('', {
+      throw new Response("", {
         status: res.status,
-        statusText: 'Page note found',
+        statusText: "Page note found",
       });
     }
 
@@ -21,7 +21,7 @@ class Api {
       method: method,
       body: JSON.stringify(body),
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
+        "Content-type": "application/json; charset=UTF-8",
       },
     });
   };
@@ -31,12 +31,12 @@ class Api {
 
   static deleteNote = (noteID) =>
     fetch(this.#rootURL + `notes/${noteID}`, {
-      method: 'DELETE',
+      method: "DELETE",
     });
 
   static getNote = async (noteID, user) =>
     await this.#getPromise(
-      this.#rootURL + `notes?id=${noteID}&userId=${user.id}`
+      this.#rootURL + `notes?id=${noteID}&userId=${user.id}`,
     );
 
   static updateNote = ({ id, noteTitle, noteBody }) => {
@@ -46,28 +46,28 @@ class Api {
         title: noteTitle,
         body: noteBody,
       },
-      'PATCH'
+      "PATCH",
     );
   };
 
   static addUser = async (user) => {
     Api.updateQuery(
-      'users',
+      "users",
       {
-        id: '',
+        id: "",
         name: user.name,
         username: user.username,
         email: user.email,
         password: user.password,
         registrationDate: user.registrationDate,
       },
-      'POST'
+      "POST",
     );
   };
 
   static checkUser = async (user) => {
     return this.#getPromise(
-      this.#rootURL + `users?${getEmailQuery(user.email)}`
+      this.#rootURL + `users?${getEmailQuery(user.email)}`,
     ).then((data) => {
       if (data[0]?.id) {
         return true;
@@ -79,13 +79,13 @@ class Api {
 
   static getUser = async (user) => {
     return await this.#getPromise(
-      this.#rootURL + `users?${await getUserQuery(user.email, user.password)}`
+      this.#rootURL + `users?${await getUserQuery(user.email, user.password)}`,
     ).then((users) => users[0]);
   };
 
   static addNote = async (note) => {
     Api.updateQuery(
-      'notes',
+      "notes",
       {
         id: note.id,
         userId: note.userId,
@@ -93,7 +93,7 @@ class Api {
         body: note.body,
         createdAt: note.createdAt,
       },
-      'POST'
+      "POST",
     );
   };
 }

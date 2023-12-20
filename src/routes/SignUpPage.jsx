@@ -1,9 +1,9 @@
-import { useCallback, useState } from 'react';
-import { z } from 'zod';
-import { userSchema } from '../utils/validation';
-import { hashPassword } from '../utils/validation';
-import { Link, useNavigate } from 'react-router-dom';
-import { Api } from '../utils/Api';
+import { useCallback, useState } from "react";
+import { z } from "zod";
+import { userSchema } from "../utils/validation";
+import { hashPassword } from "../utils/validation";
+import { Link, useNavigate } from "react-router-dom";
+import { Api } from "../utils/Api";
 
 const SignUpPage = () => {
   const [errors, setErrors] = useState(null);
@@ -11,14 +11,14 @@ const SignUpPage = () => {
 
   const addUser = async (user) => {
     if (!(await Api.checkUser(user))) {
-      Api.addUser(user).catch();
+      Api.addUser(user).catch(console.log);
 
       setErrors(null);
-      navigate('/login', { replace: true });
+      navigate("/login", { replace: true });
     } else {
       setErrors({
         ...errors,
-        exist_msg: 'A user with this email address already exists',
+        exist_msg: "A user with this email address already exists",
       });
     }
   };
@@ -48,7 +48,7 @@ const SignUpPage = () => {
         setErrors({
           ...errors,
           usr_error: "There's some problem with adding a user",
-        })
+        }),
       );
 
       setErrors(null);
@@ -74,60 +74,60 @@ const SignUpPage = () => {
 
   return (
     <>
-      <header className='p-4 underline text-2xl'>
-        <Link to='/login'>Login</Link>
+      <header className="p-4 underline text-2xl">
+        <Link to="/login">Login</Link>
       </header>
 
-      <div className='flex flex-col gap-8 w-1/3 border-4 mx-[auto] items-center mt-12 py-12 text-3xl rounded-md'>
+      <div className="flex flex-col gap-8 w-1/3 border-4 mx-[auto] items-center mt-12 py-12 text-3xl rounded-md">
         <h1>Sign up</h1>
-        <form onSubmit={handleSubmit} className='flex flex-col items-center'>
+        <form onSubmit={handleSubmit} className="flex flex-col items-center">
           <input
-            type='text'
-            name='name'
-            placeholder='Name'
+            type="text"
+            name="name"
+            placeholder="Name"
             required
-            className='border-[0.2rem] w-80 p-1 border-gray-500 mb-6 rounded text-xl'
+            className="border-[0.2rem] w-80 p-1 border-gray-500 mb-6 rounded text-xl"
           />
 
           <input
-            type='text'
-            name='username'
-            placeholder='Username'
+            type="text"
+            name="username"
+            placeholder="Username"
             required
-            className='border-[0.2rem] w-80 p-1 border-gray-500 mb-6 rounded text-xl'
+            className="border-[0.2rem] w-80 p-1 border-gray-500 mb-6 rounded text-xl"
           />
 
           <input
-            type='text'
-            name='email'
-            placeholder='Email'
+            type="text"
+            name="email"
+            placeholder="Email"
             required
-            className='border-[0.2rem] w-80 p-1 border-gray-500 mb-6 rounded text-xl'
+            className="border-[0.2rem] w-80 p-1 border-gray-500 mb-6 rounded text-xl"
           />
 
           {errors?.email && (
-            <div className='text-xl mb-[1rem] text-red-500'>
+            <div className="text-xl mb-[1rem] text-red-500">
               Error: {errors?.email?._errors}
             </div>
           )}
 
           <input
-            type='password'
-            name='password'
-            placeholder='Password'
-            className='border-[0.2rem] w-80 p-1 border-gray-500 mb-6 rounded text-xl'
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="border-[0.2rem] w-80 p-1 border-gray-500 mb-6 rounded text-xl"
             required
           />
 
           <input
-            type='password'
-            name='confirmPassword'
-            placeholder='Repeat password'
-            className='border-[0.2rem] w-80 p-1 border-gray-500 mb-6 rounded text-xl'
+            type="password"
+            name="confirmPassword"
+            placeholder="Repeat password"
+            className="border-[0.2rem] w-80 p-1 border-gray-500 mb-6 rounded text-xl"
             required
           />
 
-          <div className='text-red-500 mb-4 text-xl'>
+          <div className="text-red-500 mb-4 text-xl">
             {errors?.password && (
               <>
                 {errors?.password?._errors.map((err) => (
@@ -144,8 +144,8 @@ const SignUpPage = () => {
           </div>
 
           <button
-            type='submit'
-            className='rounded px-14 py-2 bg-slate-200 w-48 text-xl'
+            type="submit"
+            className="rounded px-14 py-2 bg-slate-200 w-48 text-xl"
           >
             Sign up
           </button>
